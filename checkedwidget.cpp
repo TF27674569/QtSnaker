@@ -14,11 +14,11 @@
 
 #define MAGRIN 1
 
-// Ò»¸ö¸ñ×ÓµÄ¿í¸ß
+// ä¸€ä¸ªæ ¼å­çš„å®½é«˜
 #define ITEM 20
-// µ¥·½Ïò ÉÏ×î´óµÄ¸öÊı
+// å•æ–¹å‘ ä¸Šæœ€å¤§çš„ä¸ªæ•°
 #define MAXCOUNT ((SIZE-MAGRIN*2)/(ITEM))
-// ¼ÆËãÕæÊµ×ø±ê
+// è®¡ç®—çœŸå®åæ ‡
 #define POSITION(x) (MAGRIN+x*ITEM)
 
 
@@ -29,10 +29,10 @@ CheckedWidget::CheckedWidget(QWidget *parent)
     ui->setupUi(this);
     resize( QSize( SIZE, SIZE ));
 
-    // ·½ÏòÄ¬ÈÏÃ»ÓĞ·½Ïò
+    // æ–¹å‘é»˜è®¤æ²¡æœ‰æ–¹å‘
     orientation =STOP;
 
-    // ³õÊ¼Î»ÖÃ
+    // åˆå§‹ä½ç½®
     snaker = (Snaker*)malloc(sizeof(Snaker));
     snaker->body = SnakerBody::HEAD;
     snaker->x = POSITION(10);
@@ -48,20 +48,20 @@ CheckedWidget::CheckedWidget(QWidget *parent)
     snaker2->x = POSITION(10);
     snaker2->y = POSITION(13);
 
-    // Ö¸ÕëÒ»¶¨Òª³õÊ¼»¯·ñÔòºóÃæÅĞ¶Ï»á³öÎÊÌâ
+    // æŒ‡é’ˆä¸€å®šè¦åˆå§‹åŒ–å¦åˆ™åé¢åˆ¤æ–­ä¼šå‡ºé—®é¢˜
     snaker2->next = nullptr;
     snaker1->next = snaker2;
     snaker->next = snaker1;
 
-    // ´´½¨Ò»¸öÊ³Îï
+    // åˆ›å»ºä¸€ä¸ªé£Ÿç‰©
     createFood();
     score = 0;
     callback = nullptr;
     isShowLine = false;
 
-    // ´´½¨Ò»¸öÏß³Ì
+    // åˆ›å»ºä¸€ä¸ªçº¿ç¨‹
     thread = new LooperThread;
-    // ¹ØÁªĞÅºÅÓë²Û
+    // å…³è”ä¿¡å·ä¸æ§½
     connect(thread, SIGNAL(looperThreadSignals()), this, SLOT(threadCallback()));
     thread->start();
 
@@ -87,9 +87,9 @@ void CheckedWidget::showLine(bool isShowLine)
 
 void CheckedWidget::threadCallback()
 {
-    // Ë¢ĞÂÖ®Ç°ÅĞ¶ÏÉßµÄÒÆ¶¯·½ÏòÒÔ¼°ÒÆ¶¯
+    // åˆ·æ–°ä¹‹å‰åˆ¤æ–­è›‡çš„ç§»åŠ¨æ–¹å‘ä»¥åŠç§»åŠ¨
     if(move()){
-        // Ç¿ÖÆË¢ĞÂ
+        // å¼ºåˆ¶åˆ·æ–°
         repaint();
     }
 }
@@ -125,7 +125,7 @@ void CheckedWidget::keyPressEvent(QKeyEvent *e)
         if(orientation!=LEFT)
         orientation =RIGHT;
         break;
-       case Qt::Key_Q :// ÔİÍ£
+       case Qt::Key_Q :// æš‚åœ
        orientation =STOP;
         break;
        case Qt::Key_O :
@@ -137,12 +137,12 @@ void CheckedWidget::keyPressEvent(QKeyEvent *e)
 
 void CheckedWidget::drawBackground()
 {
-    // »­Í¼¹¤¾ß
+    // ç”»å›¾å·¥å…·
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
 
 
-    // »­±ß½ç4ÌõÏß
+    // ç”»è¾¹ç•Œ4æ¡çº¿
      painter.drawLine(MAGRIN,MAGRIN,SIZE-MAGRIN,MAGRIN);
      painter.drawLine(MAGRIN,SIZE-MAGRIN,SIZE-MAGRIN,SIZE-MAGRIN);
 
@@ -150,14 +150,14 @@ void CheckedWidget::drawBackground()
      painter.drawLine(SIZE-MAGRIN,MAGRIN,SIZE-MAGRIN,SIZE-MAGRIN);
 
     if(isShowLine){
-        // ¼ÆËã»­³öµÄ¸öÊı
+        // è®¡ç®—ç”»å‡ºçš„ä¸ªæ•°
         int itemCount = MAXCOUNT;
-        // »­ºáÏß
+        // ç”»æ¨ªçº¿
         for(int i=1;i<=itemCount;i++){
             int p = MAGRIN+ITEM*i;
-            // »­ºáÏß
+            // ç”»æ¨ªçº¿
             painter.drawLine(MAGRIN,p,SIZE-MAGRIN,p);
-            // »­ÊúÏß
+            // ç”»ç«–çº¿
             painter.drawLine(p,MAGRIN,p,SIZE-MAGRIN);
         }
     }
@@ -165,7 +165,7 @@ void CheckedWidget::drawBackground()
 
 void CheckedWidget::drawSnaker()
 {
-    // »­Í¼¹¤¾ß
+    // ç”»å›¾å·¥å…·
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing, true);
     Snaker * temp = snaker;
@@ -198,28 +198,28 @@ void CheckedWidget::drawFood()
 
 void CheckedWidget::createFood()
 {
-        // ÕâÊÇqtµÄËæ»úÊıÊ¹ÓÃÎÒÖ±½Ó¿ÛµÄ°Ù¶È
+        // è¿™æ˜¯qtçš„éšæœºæ•°ä½¿ç”¨æˆ‘ç›´æ¥æ‰£çš„ç™¾åº¦
         qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
 
-        // goto¹Ø¼ü×ÖµÄ±ê¼Ç
+        // gotoå…³é”®å­—çš„æ ‡è®°
         lable:
         int x = qrand()%MAXCOUNT; // [0-MAXCOUNT]
         int y =qrand()%MAXCOUNT;
 
-        // ×ªÎªÊµ¼Ê×ø±ê
+        // è½¬ä¸ºå®é™…åæ ‡
         food.x = POSITION(x);
         food.y = POSITION(y);
 
         Snaker *judge = snaker;
-        //±éÀúÅÅ³ıÉßÉíÖØ¸´
+        //éå†æ’é™¤è›‡èº«é‡å¤
         while ((judge->next)!=nullptr) {
             if (food.x == judge->x && food.y == judge->y) {
-                // Óöµ½ÖØ¸´µÄÊı×Ö¾ÍÖ±½ÓÖØÀ´
+                // é‡åˆ°é‡å¤çš„æ•°å­—å°±ç›´æ¥é‡æ¥
                 goto lable;
             }
             judge = judge->next;
         }
-        // µ½´ËÉú²úÁËÒ»¸öºÏ·¨µÄÊ³Îï×ø±ê
+        // åˆ°æ­¤ç”Ÿäº§äº†ä¸€ä¸ªåˆæ³•çš„é£Ÿç‰©åæ ‡
 }
 
 void CheckedWidget::gameOver()
@@ -227,19 +227,20 @@ void CheckedWidget::gameOver()
     if(callback!=nullptr){
         callback->onGameStatesCallback(GAME_OVER);
     }
-    // Í£Ö¹Ïß³Ì
+    // åœæ­¢çº¿ç¨‹
     thread->exit();
+    delete thread;
 }
 
 bool CheckedWidget::checkGameStatu(int x,int y)
 {
-    // ÅĞ¶ÏÊÇ·ñ×²ÁËÇ½
+    // åˆ¤æ–­æ˜¯å¦æ’äº†å¢™
     if (x < MAGRIN || x > SIZE-MAGRIN || y < MAGRIN|| y >SIZE-MAGRIN ){
           gameOver();
           return true;
         }
 
-        // 2. ÉßÍ·×²ÉßÉíÃ»
+        // 2. è›‡å¤´æ’è›‡èº«æ²¡
         Snaker *p = snaker->next;
         while (p->next!=nullptr) {
             if (x == p->x && y == p->y) {
@@ -266,12 +267,12 @@ bool CheckedWidget::eatFoot(int x,int y)
             _new->next = snaker;
             snaker = _new;
             score+=10;
-            // ´òÓ¡·ÖÊı
+            // æ‰“å°åˆ†æ•°
             if(callback!=nullptr){
                 callback->onScoreCallback(score);
             }
 
-            //³ÔÍêÊ³ÎïÔÙ´´½¨
+            //åƒå®Œé£Ÿç‰©å†åˆ›å»º
             createFood();
             return true;
         }
@@ -299,13 +300,13 @@ bool CheckedWidget::change(int x, int y)
 {
 
     if(checkGameStatu(x,y)){
-        // ÓÎÏ·½áÊø
+        // æ¸¸æˆç»“æŸ
         return false;
     }
 
     if(eatFoot(x,y)){
-        // ±»³ÔµôÎÒÔÚÍ·ÉÏ¼ÓÁËÒ»¸ö
-        // ¿ÉÒÔÖ±½Ó´òÓ¡²»ÓÃÈ¥µôÎ²²¿
+        // è¢«åƒæ‰æˆ‘åœ¨å¤´ä¸ŠåŠ äº†ä¸€ä¸ª
+        // å¯ä»¥ç›´æ¥æ‰“å°ä¸ç”¨å»æ‰å°¾éƒ¨
         return true;
      }
 
@@ -313,7 +314,7 @@ bool CheckedWidget::change(int x, int y)
       Snaker* p = snaker;
 
 
-        // ÒÆ³ıÎ²²¿
+        // ç§»é™¤å°¾éƒ¨
         while (p != nullptr) {
             if (p->next->next == nullptr) {
                 break;
@@ -323,11 +324,11 @@ bool CheckedWidget::change(int x, int y)
 
         Snaker* temp = p->next->next;
         p->next = nullptr;
-        // ÊÍ·Å×îºóÒ»¸ö
+        // é‡Šæ”¾æœ€åä¸€ä¸ª
         free(temp);
-        // ÖÍ¿Õ×îºóÒ»¸ö
+        // æ»ç©ºæœ€åä¸€ä¸ª
 
-        // ĞÂ½¨Ò»¸ö x y ·ÅÍ·²¿
+        // æ–°å»ºä¸€ä¸ª x y æ”¾å¤´éƒ¨
         temp = (Snaker*) malloc(sizeof(Snaker));
         temp->x = x;
         temp->y = y;
